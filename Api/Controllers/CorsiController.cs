@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Api.Data;
-using Api.Models;
+using DatiCondivisi.Models;
 
 namespace Api.Controllers
 {
@@ -23,16 +23,16 @@ namespace Api.Controllers
 
         // GET: api/Corsi
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Corsi>>> GetCorsis()
+        public async Task<ActionResult<IEnumerable<Corsi>>> GetCorsi()
         {
-            return await _context.Corsis.ToListAsync();
+            return await _context.Corsi.ToListAsync();
         }
 
         // GET: api/Corsi/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Corsi>> GetCorsi(int id)
         {
-            var corsi = await _context.Corsis.FindAsync(id);
+            var corsi = await _context.Corsi.FindAsync(id);
 
             if (corsi == null)
             {
@@ -78,7 +78,7 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Corsi>> PostCorsi(Corsi corsi)
         {
-            _context.Corsis.Add(corsi);
+            _context.Corsi.Add(corsi);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCorsi", new { id = corsi.CorsoId }, corsi);
@@ -88,13 +88,13 @@ namespace Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCorsi(int id)
         {
-            var corsi = await _context.Corsis.FindAsync(id);
+            var corsi = await _context.Corsi.FindAsync(id);
             if (corsi == null)
             {
                 return NotFound();
             }
 
-            _context.Corsis.Remove(corsi);
+            _context.Corsi.Remove(corsi);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace Api.Controllers
 
         private bool CorsiExists(int id)
         {
-            return _context.Corsis.Any(e => e.CorsoId == id);
+            return _context.Corsi.Any(e => e.CorsoId == id);
         }
     }
 }

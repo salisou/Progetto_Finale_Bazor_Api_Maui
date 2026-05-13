@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Api.Data;
-using Api.Models;
+using DatiCondivisi.Models;
 
 namespace Api.Controllers
 {
@@ -23,16 +23,16 @@ namespace Api.Controllers
 
         // GET: api/Docenti
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Docenti>>> GetDocentis()
+        public async Task<ActionResult<IEnumerable<Docenti>>> GetDocenti()
         {
-            return await _context.Docentis.ToListAsync();
+            return await _context.Docenti.ToListAsync();
         }
 
         // GET: api/Docenti/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Docenti>> GetDocenti(int id)
         {
-            var docenti = await _context.Docentis.FindAsync(id);
+            var docenti = await _context.Docenti.FindAsync(id);
 
             if (docenti == null)
             {
@@ -78,7 +78,7 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Docenti>> PostDocenti(Docenti docenti)
         {
-            _context.Docentis.Add(docenti);
+            _context.Docenti.Add(docenti);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetDocenti", new { id = docenti.DocenteId }, docenti);
@@ -88,13 +88,13 @@ namespace Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDocenti(int id)
         {
-            var docenti = await _context.Docentis.FindAsync(id);
+            var docenti = await _context.Docenti.FindAsync(id);
             if (docenti == null)
             {
                 return NotFound();
             }
 
-            _context.Docentis.Remove(docenti);
+            _context.Docenti.Remove(docenti);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace Api.Controllers
 
         private bool DocentiExists(int id)
         {
-            return _context.Docentis.Any(e => e.DocenteId == id);
+            return _context.Docenti.Any(e => e.DocenteId == id);
         }
     }
 }

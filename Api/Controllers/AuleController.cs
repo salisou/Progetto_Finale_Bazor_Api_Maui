@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Api.Data;
-using Api.Models;
+using DatiCondivisi.Models;
 
 namespace Api.Controllers
 {
@@ -25,14 +25,14 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Aule>>> GetAules()
         {
-            return await _context.Aules.ToListAsync();
+            return await _context.Aule.ToListAsync();
         }
 
         // GET: api/Aule/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Aule>> GetAule(int id)
         {
-            var aule = await _context.Aules.FindAsync(id);
+            var aule = await _context.Aule.FindAsync(id);
 
             if (aule == null)
             {
@@ -78,7 +78,7 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Aule>> PostAule(Aule aule)
         {
-            _context.Aules.Add(aule);
+            _context.Aule.Add(aule);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetAule", new { id = aule.AulaId }, aule);
@@ -88,13 +88,13 @@ namespace Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAule(int id)
         {
-            var aule = await _context.Aules.FindAsync(id);
+            var aule = await _context.Aule.FindAsync(id);
             if (aule == null)
             {
                 return NotFound();
             }
 
-            _context.Aules.Remove(aule);
+            _context.Aule.Remove(aule);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace Api.Controllers
 
         private bool AuleExists(int id)
         {
-            return _context.Aules.Any(e => e.AulaId == id);
+            return _context.Aule.Any(e => e.AulaId == id);
         }
     }
 }

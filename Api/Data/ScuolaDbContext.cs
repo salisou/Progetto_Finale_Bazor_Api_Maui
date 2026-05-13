@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Api.Models;
+using DatiCondivisi.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Data;
@@ -16,35 +16,35 @@ public partial class ScuolaDbContext : DbContext
     {
     }
 
-    public virtual DbSet<Aule> Aules { get; set; }
+    public virtual DbSet<Aule> Aule { get; set; }
 
-    public virtual DbSet<Corsi> Corsis { get; set; }
+    public virtual DbSet<Corsi> Corsi { get; set; }
 
-    public virtual DbSet<Docenti> Docentis { get; set; }
+    public virtual DbSet<Docenti> Docenti { get; set; }
 
-    public virtual DbSet<DocentiCorso> DocentiCorsos { get; set; }
+    public virtual DbSet<DocentiCorso> DocentiCorso { get; set; }
 
-    public virtual DbSet<Iscrizioni> Iscrizionis { get; set; }
+    public virtual DbSet<Iscrizioni> Iscrizioni { get; set; }
 
-    public virtual DbSet<Lezioni> Lezionis { get; set; }
+    public virtual DbSet<Lezioni> Lezioni { get; set; }
 
-    public virtual DbSet<LogBackup> LogBackups { get; set; }
+    public virtual DbSet<LogBackup> LogBackup { get; set; }
 
-    public virtual DbSet<Studenti> Studentis { get; set; }
+    public virtual DbSet<Studenti> Studenti { get; set; }
 
-    public virtual DbSet<VwCorsi> VwCorsis { get; set; }
+    public virtual DbSet<VwCorsi> VwCorsi { get; set; }
 
-    public virtual DbSet<VwCorsiStato> VwCorsiStatos { get; set; }
+    public virtual DbSet<VwCorsitato> VwCorsitato { get; set; }
 
-    public virtual DbSet<VwGetCorsi> VwGetCorsis { get; set; }
+    public virtual DbSet<VwGetCorsi> VwGetCorsi { get; set; }
 
-    public virtual DbSet<VwStudenti> VwStudentis { get; set; }
+    public virtual DbSet<VwStudenti> VwStudenti { get; set; }
 
-    public virtual DbSet<VwStudentiStato> VwStudentiStatos { get; set; }
+    public virtual DbSet<VwStudentitato> VwStudentitato { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=MOUSSA\\SQLEXPRESS01;Initial Catalog=ScuolaDb;Integrated Security=True;Trust Server Certificate=True");
+//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseSqlServer("Data Source=MOUSSA\\SQLEXPRESS01;Initial Catalog=ScuolaDb;Integrated Security=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -87,12 +87,12 @@ public partial class ScuolaDbContext : DbContext
 
             entity.ToTable("DocentiCorso");
 
-            entity.HasOne(d => d.Corso).WithMany(p => p.DocentiCorsos)
+            entity.HasOne(d => d.Corso).WithMany(p => p.DocentiCorso)
                 .HasForeignKey(d => d.CorsoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__DocentiCo__Corso__7D439ABD");
 
-            entity.HasOne(d => d.Docente).WithMany(p => p.DocentiCorsos)
+            entity.HasOne(d => d.Docente).WithMany(p => p.DocentiCorso)
                 .HasForeignKey(d => d.DocenteId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__DocentiCo__Docen__7C4F7684");
@@ -104,12 +104,12 @@ public partial class ScuolaDbContext : DbContext
 
             entity.ToTable("Iscrizioni");
 
-            entity.HasOne(d => d.Corso).WithMany(p => p.Iscrizionis)
+            entity.HasOne(d => d.Corso).WithMany(p => p.Iscrizioni)
                 .HasForeignKey(d => d.CorsoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Iscrizion__Corso__75A278F5");
 
-            entity.HasOne(d => d.Studente).WithMany(p => p.Iscrizionis)
+            entity.HasOne(d => d.Studente).WithMany(p => p.Iscrizioni)
                 .HasForeignKey(d => d.StudenteId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Iscrizion__Stude__74AE54BC");
@@ -121,12 +121,12 @@ public partial class ScuolaDbContext : DbContext
 
             entity.ToTable("Lezioni");
 
-            entity.HasOne(d => d.Aula).WithMany(p => p.Lezionis)
+            entity.HasOne(d => d.Aula).WithMany(p => p.Lezioni)
                 .HasForeignKey(d => d.AulaId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Lezioni__AulaId__797309D9");
 
-            entity.HasOne(d => d.Corso).WithMany(p => p.Lezionis)
+            entity.HasOne(d => d.Corso).WithMany(p => p.Lezioni)
                 .HasForeignKey(d => d.CorsoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Lezioni__OraFine__787EE5A0");
@@ -184,7 +184,7 @@ public partial class ScuolaDbContext : DbContext
                 .HasColumnName("Nome del corso");
         });
 
-        modelBuilder.Entity<VwCorsiStato>(entity =>
+        modelBuilder.Entity<VwCorsitato>(entity =>
         {
             entity
                 .HasNoKey()
@@ -228,7 +228,7 @@ public partial class ScuolaDbContext : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<VwStudentiStato>(entity =>
+        modelBuilder.Entity<VwStudentitato>(entity =>
         {
             entity
                 .HasNoKey()

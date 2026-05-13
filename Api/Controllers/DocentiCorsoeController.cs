@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Api.Data;
-using Api.Models;
+using DatiCondivisi.Models;
 
 namespace Api.Controllers
 {
@@ -23,16 +23,16 @@ namespace Api.Controllers
 
         // GET: api/DocentiCorsoe
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DocentiCorso>>> GetDocentiCorsos()
+        public async Task<ActionResult<IEnumerable<DocentiCorso>>> GetDocentiCorso()
         {
-            return await _context.DocentiCorsos.ToListAsync();
+            return await _context.DocentiCorso.ToListAsync();
         }
 
         // GET: api/DocentiCorsoe/5
         [HttpGet("{id}")]
         public async Task<ActionResult<DocentiCorso>> GetDocentiCorso(int id)
         {
-            var docentiCorso = await _context.DocentiCorsos.FindAsync(id);
+            var docentiCorso = await _context.DocentiCorso.FindAsync(id);
 
             if (docentiCorso == null)
             {
@@ -78,7 +78,7 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<ActionResult<DocentiCorso>> PostDocentiCorso(DocentiCorso docentiCorso)
         {
-            _context.DocentiCorsos.Add(docentiCorso);
+            _context.DocentiCorso.Add(docentiCorso);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetDocentiCorso", new { id = docentiCorso.Id }, docentiCorso);
@@ -88,13 +88,13 @@ namespace Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDocentiCorso(int id)
         {
-            var docentiCorso = await _context.DocentiCorsos.FindAsync(id);
+            var docentiCorso = await _context.DocentiCorso.FindAsync(id);
             if (docentiCorso == null)
             {
                 return NotFound();
             }
 
-            _context.DocentiCorsos.Remove(docentiCorso);
+            _context.DocentiCorso.Remove(docentiCorso);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace Api.Controllers
 
         private bool DocentiCorsoExists(int id)
         {
-            return _context.DocentiCorsos.Any(e => e.Id == id);
+            return _context.DocentiCorso.Any(e => e.Id == id);
         }
     }
 }

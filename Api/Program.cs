@@ -1,11 +1,30 @@
+using Api.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+var conn = builder.Configuration.GetConnectionString("SrtCon") 
+    ?? throw new ArgumentNullException(nameof(args));
+
+builder.Services.AddDbContext<ScuolaDbContext>(optins =>
+        optins.UseSqlServer(conn)        
+    );
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(o => 
+        o.AddPolicy("AllowPolicy",
+        r => r.AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowAnyOrigin()
+        )
+    );
+
 
 var app = builder.Build();
 
@@ -16,7 +35,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
+
+app.UseCors("AllowPolicy");
 
 app.UseAuthorization();
 

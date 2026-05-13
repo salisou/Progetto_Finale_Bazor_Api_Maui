@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Api.Data;
-using Api.Models;
+using DatiCondivisi.Models;
 
 namespace Api.Controllers
 {
@@ -23,16 +23,16 @@ namespace Api.Controllers
 
         // GET: api/Lezioni
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Lezioni>>> GetLezionis()
+        public async Task<ActionResult<IEnumerable<Lezioni>>> GetLezioni()
         {
-            return await _context.Lezionis.ToListAsync();
+            return await _context.Lezioni.ToListAsync();
         }
 
         // GET: api/Lezioni/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Lezioni>> GetLezioni(int id)
         {
-            var lezioni = await _context.Lezionis.FindAsync(id);
+            var lezioni = await _context.Lezioni.FindAsync(id);
 
             if (lezioni == null)
             {
@@ -78,7 +78,7 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Lezioni>> PostLezioni(Lezioni lezioni)
         {
-            _context.Lezionis.Add(lezioni);
+            _context.Lezioni.Add(lezioni);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetLezioni", new { id = lezioni.LezioneId }, lezioni);
@@ -88,13 +88,13 @@ namespace Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLezioni(int id)
         {
-            var lezioni = await _context.Lezionis.FindAsync(id);
+            var lezioni = await _context.Lezioni.FindAsync(id);
             if (lezioni == null)
             {
                 return NotFound();
             }
 
-            _context.Lezionis.Remove(lezioni);
+            _context.Lezioni.Remove(lezioni);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace Api.Controllers
 
         private bool LezioniExists(int id)
         {
-            return _context.Lezionis.Any(e => e.LezioneId == id);
+            return _context.Lezioni.Any(e => e.LezioneId == id);
         }
     }
 }

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Api.Data;
-using Api.Models;
+using DatiCondivisi.Models;
 
 namespace Api.Controllers
 {
@@ -23,16 +18,16 @@ namespace Api.Controllers
 
         // GET: api/Iscrizioni
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Iscrizioni>>> GetIscrizionis()
+        public async Task<ActionResult<IEnumerable<Iscrizioni>>> GetIscrizioni()
         {
-            return await _context.Iscrizionis.ToListAsync();
+            return await _context.Iscrizioni.ToListAsync();
         }
 
         // GET: api/Iscrizioni/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Iscrizioni>> GetIscrizioni(int id)
         {
-            var iscrizioni = await _context.Iscrizionis.FindAsync(id);
+            var iscrizioni = await _context.Iscrizioni.FindAsync(id);
 
             if (iscrizioni == null)
             {
@@ -78,7 +73,7 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Iscrizioni>> PostIscrizioni(Iscrizioni iscrizioni)
         {
-            _context.Iscrizionis.Add(iscrizioni);
+            _context.Iscrizioni.Add(iscrizioni);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetIscrizioni", new { id = iscrizioni.IscrizioneId }, iscrizioni);
@@ -88,13 +83,13 @@ namespace Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteIscrizioni(int id)
         {
-            var iscrizioni = await _context.Iscrizionis.FindAsync(id);
+            var iscrizioni = await _context.Iscrizioni.FindAsync(id);
             if (iscrizioni == null)
             {
                 return NotFound();
             }
 
-            _context.Iscrizionis.Remove(iscrizioni);
+            _context.Iscrizioni.Remove(iscrizioni);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +97,7 @@ namespace Api.Controllers
 
         private bool IscrizioniExists(int id)
         {
-            return _context.Iscrizionis.Any(e => e.IscrizioneId == id);
+            return _context.Iscrizioni.Any(e => e.IscrizioneId == id);
         }
     }
 }
