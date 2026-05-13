@@ -1,0 +1,12 @@
+# ignomra .vs
+.vs/
+*log/
+
+# Build
+bin/
+obj/
+
+# Entity framework
+Migrations
+Migration
+
