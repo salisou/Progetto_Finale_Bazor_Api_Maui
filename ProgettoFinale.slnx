@@ -1,5 +1,13 @@
 <Solution>
-  <Project Path="Api/Api.csproj" />
-  <Project Path="DatiCondivis/DatiCondivi.csproj" Id="0e3e2119-c3cf-4f23-9cec-36aa21e39143" />
-  <Project Path="ProgettoFinale/ProgettoFinale.csproj" />
+  <Folder Name="/SmartPhone/">
+    <Project Path="TodoList/TodoList.csproj" Id="c2786f6f-ee52-4f07-8fc0-bb0f062c7449" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="Api/Api.csproj" />
+    <Project Path="DatiCondivis/DatiCondivi.csproj" Id="0e3e2119-c3cf-4f23-9cec-36aa21e39143" />
+    <Project Path="Web/Web.csproj" Id="4db83d9e-1948-4425-8932-b5cb26754fa8" />
+  </Folder>
+  <Folder Name="/WebAppMVC/">
+    <Project Path="ProgettoFinale/ProgettoFinale.csproj" />
+  </Folder>
 </Solution>

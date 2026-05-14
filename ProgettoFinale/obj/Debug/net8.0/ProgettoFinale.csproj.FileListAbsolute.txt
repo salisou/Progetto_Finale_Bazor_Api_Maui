@@ -127,6 +127,7 @@ D:\Progetti_Dotnet\ProgettoFinale\ProgettoFinale\obj\Debug\net8.0\ProgettoFinale
 D:\Progetti_Dotnet\ProgettoFinale\ProgettoFinale\obj\Debug\net8.0\ProgettoFinale.MvcApplicationPartsAssemblyInfo.cache
 D:\Progetti_Dotnet\ProgettoFinale\ProgettoFinale\obj\Debug\net8.0\ProgettoFinale.RazorAssemblyInfo.cache
 D:\Progetti_Dotnet\ProgettoFinale\ProgettoFinale\obj\Debug\net8.0\ProgettoFinale.RazorAssemblyInfo.cs
+D:\Progetti_Dotnet\ProgettoFinale\ProgettoFinale\obj\Debug\net8.0\ProgettoFinale.sourcelink.json
 D:\Progetti_Dotnet\ProgettoFinale\ProgettoFinale\obj\Debug\net8.0\rjimswa.dswa.cache.json
 D:\Progetti_Dotnet\ProgettoFinale\ProgettoFinale\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 D:\Progetti_Dotnet\ProgettoFinale\ProgettoFinale\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json

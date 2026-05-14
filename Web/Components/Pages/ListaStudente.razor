@@ -1,0 +1,47 @@
+﻿@page "/studenti"
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+@using Web.Services
+@inject IStudentiService StudentiService
+
+<PageTitle>Gestione Studenti</PageTitle>
+
+<h2>Gestione Studenti</h2>
+
+@if (studenteDtos == null)
+{
+    <p>Caricamento in corso...</p>
+}
+else if (!studenteDtos.Any())
+{
+    <p>Nessuno studente trovato.</p>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <QuickGrid class="table table-striped" Items="@studenteDtos">
+                        <PropertyColumn Property="@(s => s.StudenteId)" Title="ID" Sortable="true" />
+                        <PropertyColumn Property="@(s => s.Nome)" Title="Nome" Sortable="true" />
+                        <PropertyColumn Property="@(s => s.Cognome)" Title="Cognome" Sortable="true" />
+                        <PropertyColumn Property="@(s => s.Email)" Title="Email" Sortable="true" />
+                        <PropertyColumn Property="@(s => s.Telefono)" Title="Telefono" Sortable="true" />
+                        <PropertyColumn Property="@(s => s.CodiceFiscale)" Title="Codice Fiscale" Sortable="true" />
+                    </QuickGrid>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private IQueryable<StudenteDto>? studenteDtos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        studenteDtos = await StudentiService.GetStudentiAsync();
+    }
+}
