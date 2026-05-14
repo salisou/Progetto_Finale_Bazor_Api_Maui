@@ -1,47 +1,175 @@
 ﻿@page "/studenti"
-@rendermode InteractiveServer
-@using Microsoft.AspNetCore.Components.QuickGrid
 
+@rendermode InteractiveServer
+
+@using Microsoft.AspNetCore.Components.QuickGrid
 @using Web.Services
+
 @inject IStudentiService StudentiService
 
 <PageTitle>Gestione Studenti</PageTitle>
 
-<h2>Gestione Studenti</h2>
+<h2 class="mb-4">Gestione Studenti</h2>
 
-@if (studenteDtos == null)
+<button class="btn btn-primary mb-3" @onclick="ApriNuovoStudente">
+    + Nuovo Studente
+</button>
+
+@if (studenti is null)
 {
-    <p>Caricamento in corso...</p>
-}
-else if (!studenteDtos.Any())
-{
-    <p>Nessuno studente trovato.</p>
+    <p>Caricamento...</p>
 }
 else
 {
-    <div class="container">
-        <div class="row">
-            <div class="card">
-                <div class="card-body">
-                    <QuickGrid class="table table-striped" Items="@studenteDtos">
-                        <PropertyColumn Property="@(s => s.StudenteId)" Title="ID" Sortable="true" />
-                        <PropertyColumn Property="@(s => s.Nome)" Title="Nome" Sortable="true" />
-                        <PropertyColumn Property="@(s => s.Cognome)" Title="Cognome" Sortable="true" />
-                        <PropertyColumn Property="@(s => s.Email)" Title="Email" Sortable="true" />
-                        <PropertyColumn Property="@(s => s.Telefono)" Title="Telefono" Sortable="true" />
-                        <PropertyColumn Property="@(s => s.CodiceFiscale)" Title="Codice Fiscale" Sortable="true" />
-                    </QuickGrid>
+    <QuickGrid Items="studenti" Class="table table-striped">
+
+        <PropertyColumn Property="s => s.StudenteId" Title="Id" />
+        <PropertyColumn Property="s => s.Nome" Title="Nome" />
+        <PropertyColumn Property="s => s.Cognome" Title="Cognome" />
+        <PropertyColumn Property="s => s.Email" Title="Email" />
+        <PropertyColumn Property="s => s.Telefono" Title="Telefono" />
+        <PropertyColumn Property="s => s.CodiceFiscale" Title="Codice Fiscale" />
+        @* <PropertyColumn Property="s => s.DataNascita" Title="Data di nascita" /> *@
+        <TemplateColumn Title="Data di nascita">
+            @{
+                if (context.DataNascita is null)
+                {
+                    <span>Data non definita</span>
+                }
+                else
+                {
+                    <span>@context.DataNascita.Value.ToString("dd/MM/yyyy")</span>
+                }
+            }
+        </TemplateColumn>
+
+        <TemplateColumn Title="Azioni">
+            @{
+                <button class="btn btn-warning btn-sm me-2" @onclick="() => ModificaStudente(context)">Modifica</button>
+                <button class="btn btn-danger btn-sm" @onclick="() => EliminaStudente(context)">Elimina</button>
+            }
+        </TemplateColumn>
+
+    </QuickGrid>
+}
+
+@if (showModal)
+{
+    <div class="modal fade show d-block" style="background: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">@modalTitle</h5>
+                    <button class="btn-close" @onclick="ChiudiModal"></button>
                 </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label>Nome</label>
+                        <input class="form-control" @bind="studente.Nome" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Cognome</label>
+                        <input class="form-control" @bind="studente.Cognome" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input class="form-control" @bind="studente.Email" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Telefono</label>
+                        <input class="form-control" @bind="studente.Telefono" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Codice Fiscale</label>
+                        <input class="form-control" @bind="studente.CodiceFiscale" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Data di nascita</label>
+                        <input type="date" class="form-control" @bind="studente.DataNascita" />
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="ChiudiModal">Annulla</button>
+                    <button class="btn btn-primary" @onclick="SalvaStudente">Salva</button>
+                </div>
+
             </div>
         </div>
     </div>
 }
 
 @code {
-    private IQueryable<StudenteDto>? studenteDtos;
+    IQueryable<StudenteDto> studenti;
+    StudenteDto studente = new();
+    bool showModal = false;
+    string modalTitle = "";
+    int selectedId = 0;
 
     protected override async Task OnInitializedAsync()
     {
-        studenteDtos = await StudentiService.GetStudentiAsync();
+        await CaricaStudenti();
+    }
+
+    async Task CaricaStudenti()
+    {
+        studenti = await StudentiService.GetStudentiAsync();
+    }
+
+    void ApriNuovoStudente()
+    {
+        studente = new();
+        selectedId = 0;
+        modalTitle = "Nuovo Studente";
+        showModal = true;
+    }
+
+    void ModificaStudente(StudenteDto s)
+    {
+        studente = new StudenteDto
+        {
+            StudenteId = s.StudenteId,
+            Nome = s.Nome,
+            Cognome = s.Cognome,
+            Email = s.Email,
+            Telefono = s.Telefono,
+            CodiceFiscale = s.CodiceFiscale,
+            DataNascita = s.DataNascita
+        };
+
+        selectedId = s.StudenteId;
+        modalTitle = "Modifica Studente";
+        showModal = true;
+    }
+
+    async Task EliminaStudente(StudenteDto s)
+    {
+        await StudentiService.DeleteStudenteAsync(s.StudenteId);
+        await CaricaStudenti();
+    }
+
+    void ChiudiModal()
+    {
+        showModal = false;
+    }
+
+    async Task SalvaStudente()
+    {
+        if (selectedId == 0)
+            await StudentiService.CreateStudenteAsync(studente);
+        else
+            await StudentiService.UpdateStudenteAsync(selectedId, studente);
+
+        showModal = false;
+        await CaricaStudenti();
     }
 }

@@ -18,12 +18,16 @@ namespace Web.Services
             var response = await _httpClient.PostAsJsonAsync("api/Studenti", dto);
             return response.IsSuccessStatusCode;
         }
-
         public async Task<bool> DeleteStudenteAsync(int id)
         {
             var response = await _httpClient.DeleteAsync($"api/Studenti/{id}");
             return response.IsSuccessStatusCode;
         }
+        //public async Task<bool> DeleteStudenteAsync(int id)
+        //{
+        //    var response = await _httpClient.DeleteAsync($"api/Studenti/{id}");
+        //    return response.IsSuccessStatusCode;
+        //}
 
         public async Task<IQueryable<StudenteDto>> GetStudentiAsync()
         {
